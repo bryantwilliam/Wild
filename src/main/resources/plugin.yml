@@ -1,0 +1,19 @@
+name: Wild
+version: 1.0.0-DEVELOPMENT-SNAPSHOT
+main: com.gmail.gogobebe2.wild.Wild
+description:
+author: William Bryant (gogobebe2)
+website: gogobebe2@gmail.com
+commands:
+  wild:
+    permission: wild.use
+permissions:
+  wild.*:
+    default: op
+    children:
+      wild.use: true
+      wild.nocooldown: true
+  wild.use:
+    default: op
+  wild.nocooldown:
+    default: op
