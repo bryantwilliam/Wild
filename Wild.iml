@@ -11,6 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="joda-time-2.3" level="project" />
     <orderEntry type="library" name="Maven: joda-time:joda-time:2.7" level="project" />
     <orderEntry type="library" name="Maven: org.spigotmc:spigot-api:1.8.3-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
