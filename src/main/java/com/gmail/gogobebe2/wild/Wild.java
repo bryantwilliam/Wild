@@ -29,11 +29,12 @@ public class Wild extends JavaPlugin {
             DateTime time = new DateTime();
             if (playersOnCooldown.containsKey(player)) {
                 double hours = (time.getMillis() - playersOnCooldown.get(player).getMillis()) / 1000 / 60 / 60;
-                if (hours < 24) {
+                if (hours < 24 && !player.hasPermission("wild.nocooldown")) {
                     player.sendMessage(ChatColor.RED + "Error! You can only use this command every 24 hours."
                             + " You currently have " + ChatColor.DARK_RED + hours + ChatColor.RED + " remaining.");
                     return true;
                 }
+                playersOnCooldown.remove(player);
             }
             playersOnCooldown.put(player, time);
             if (args.length > 0) {
