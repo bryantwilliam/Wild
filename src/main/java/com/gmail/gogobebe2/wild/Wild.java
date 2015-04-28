@@ -8,13 +8,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.joda.time.DateTime;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
+
 public class Wild extends JavaPlugin {
-    private List<Player> playersOnCooldown = new ArrayList<>();
+    private Map<Player, DateTime> playersOnCooldown = new HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -24,10 +26,19 @@ public class Wild extends JavaPlugin {
                 return true;
             }
             Player player = (Player) sender;
+            DateTime time = new DateTime();
+            if (playersOnCooldown.containsKey(player)) {
+                double hours = (time.getMillis() - playersOnCooldown.get(player).getMillis()) / 1000 / 60 / 60;
+                if (hours < 24) {
+                    player.sendMessage(ChatColor.RED + "Error! You can only use this command every 24 hours."
+                            + " You currently have " + ChatColor.DARK_RED + hours + ChatColor.RED + " remaining.");
+                    return true;
+                }
+            }
+            playersOnCooldown.put(player, time);
             if (args.length > 0) {
                 player.sendMessage(ChatColor.GREEN + "You entered some arguments to the command /wild. I will just ignore them :P");
             }
-
             teleRandomLocation(player, -5000, 5000);
             return true;
         }
@@ -36,21 +47,21 @@ public class Wild extends JavaPlugin {
 
     public static double randDouble(double min, double max) {
         Random r = new Random();
-        double randomValue = min + (max - min) * r.nextDouble();
-        return randomValue;
+        return min + (max - min) * r.nextDouble();
     }
 
     private void teleRandomLocation(Player player, double min, double max) {
         Location location = player.getLocation();
-        while (true) {
+        boolean safeToTele = false;
+        do {
             location.setX(randDouble(min, max));
             location.setZ(randDouble(min, max));
             Location ground = getGround(location);
             if (ground != null) {
                 location = ground;
-                break;
+                safeToTele = true;
             }
-        }
+        } while (!safeToTele);
         player.teleport(location);
         player.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "After exploring the land, you've finally come across"
                 + "some land that looks like a good spot to build your faction home...");
@@ -66,8 +77,7 @@ public class Wild extends JavaPlugin {
         Block block = location.getBlock();
         if (y < 0) {
             return null;
-        }
-        else if (block.getType().equals(Material.AIR) || block.getType().equals(Material.LAVA) || block.getType().equals(Material.WATER)) {
+        } else if (block.getType().equals(Material.AIR) || block.getType().equals(Material.LAVA) || block.getType().equals(Material.WATER)) {
             location.setY(y - 1);
             return getGround(location, y);
         }
