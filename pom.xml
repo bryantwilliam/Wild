@@ -6,7 +6,7 @@
 
     <groupId>com.gmail.gogobebe2.wild</groupId>
     <artifactId>Wild</artifactId>
-    <version>1.0.4-DEVELOPMENT-SNAPSHOT</version>
+    <version>1.0.7-DEVELOPMENT-SNAPSHOT</version>
 
     <build>
         <pluginManagement>
@@ -30,14 +30,14 @@
     </repositories>
     <dependencies>
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.7</version>
-        </dependency>
-        <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.8.3-R0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.7</version>
         </dependency>
     </dependencies>
 </project>
