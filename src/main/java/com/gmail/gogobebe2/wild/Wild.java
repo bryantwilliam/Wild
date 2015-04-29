@@ -68,10 +68,11 @@ public class Wild extends JavaPlugin {
                 break;
             }
         } while (true);
+        player.sendMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Traveling into the wild where beasts roam the land and men fight to survive.");
         player.teleport(destination);
-        player.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "After exploring the land, you've finally come across"
-                + " some land that looks like a good spot to build your faction home...");
-        player.sendMessage(ChatColor.AQUA + "" + ChatColor.ITALIC + "Goodluck on your adventures and missions!!!");
+        player.sendMessage(ChatColor.GREEN + "You have been teleported to X:" + ChatColor.GOLD + destination.getX()
+                + ChatColor.GREEN + ", Y:" + ChatColor.GOLD + destination.getY() + ChatColor.GREEN + ", Z:"
+                + ChatColor.GOLD + destination.getZ() + ChatColor.GREEN + ".");
     }
 
     private Location getGround(Location location, double maxHeight) {
