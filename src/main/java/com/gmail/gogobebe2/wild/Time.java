@@ -14,7 +14,7 @@ public class Time {
     }
 
     public String getFormattedTime() {
-        return getDays() + " days, " + getHours() + " hours, " + getMinutes() + " minutes and " + getSeconds() + " seconds.";
+        return getDays() + " days, " + getHours() % 24 + " hours, " + getMinutes() % 60 + " minutes and " + getSeconds() % 60 + " seconds.";
     }
 
     public long getDays() {
