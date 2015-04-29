@@ -12,9 +12,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Wild extends JavaPlugin {
     private Map<Player, Time> playersOnCooldown = new HashMap<>();
+    private final Time cooldownTime = new Time(TimeUnit.HOURS.toMillis(24));
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -30,10 +32,11 @@ public class Wild extends JavaPlugin {
             }
             Time time = new Time();
             if (playersOnCooldown.containsKey(player)) {
-                Time timeLeft = new Time(time.getMiliseconds() - playersOnCooldown.get(player).getMiliseconds());
-                if (timeLeft.getHours() < 24 && !player.hasPermission("wild.nocooldown")) {
+                Time timeBeen = new Time(time.getMiliseconds() - playersOnCooldown.get(player).getMiliseconds());
+                if (timeBeen.getHours() < cooldownTime.getHours() && !player.hasPermission("wild.nocooldown")) {
+                    Time timeRemaining = new Time(cooldownTime.getMiliseconds() - timeBeen.getMiliseconds());
                     player.sendMessage(ChatColor.RED + "Error! You can only use this command every 24 hours."
-                            + " You currently have " + ChatColor.DARK_RED + timeLeft.getFormattedTime() + ChatColor.RED + " remaining.");
+                            + " You currently have " + ChatColor.DARK_RED + timeRemaining.getFormattedTime() + ChatColor.RED + " remaining.");
                     return true;
                 }
                 playersOnCooldown.remove(player);
