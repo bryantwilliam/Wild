@@ -53,10 +53,10 @@ public class Wild extends JavaPlugin {
         Location location = player.getLocation();
         Location destination;
         do {
-            destination = location;
+            destination = location.clone();
             destination.setX(randDouble(min, max));
             destination.setZ(randDouble(min, max));
-            destination = getGround(location);
+            destination = getGround(destination, 257D);
             if (destination != null) {
                 break;
             }
@@ -67,20 +67,35 @@ public class Wild extends JavaPlugin {
         player.sendMessage(ChatColor.AQUA + "" + ChatColor.ITALIC + "Goodluck on your adventures and missions!!!");
     }
 
-    private Location getGround(Location location) {
-        return getGround(location, 257D);
+    private Location getGround(Location location, double maxHeight) {
+        location.setY(maxHeight);
+        return getGround(location);
     }
 
-    private Location getGround(Location location, double y) {
-        location.setY(y);
+    private Location getGround(Location location) {
         Block block = location.getBlock();
-        if (y < 0) {
+        if (location.getY() < 0) {
             return null;
-        } else if (block.getType().equals(Material.AIR) || block.getType().equals(Material.LAVA) || block.getType().equals(Material.WATER)) {
-            y--;
-            location.setY(y);
-            return getGround(location, y);
+        } else if (!isSafeToTele(location)) {
+            return getGround(getLocationUnderneath(location));
         }
         return location;
+    }
+
+    private boolean isSafeToTele(Location location) {
+        Location underLoc = getLocationUnderneath(location);
+
+        Block block = location.getBlock();
+        Block underBlock = underLoc.getBlock();
+
+        Material underBlockType = underBlock.getType();
+        return block.getType().equals(Material.AIR)
+                && !(underBlockType.equals(Material.AIR)
+                || underBlockType.equals(Material.LAVA)
+                || underBlockType.equals(Material.WATER));
+    }
+
+    private Location getLocationUnderneath(Location location) {
+        return location.subtract(0, 1, 0);
     }
 }
