@@ -24,6 +24,10 @@ public class Wild extends JavaPlugin {
                 return true;
             }
             Player player = (Player) sender;
+            if (!player.hasPermission("wild.use")) {
+                player.sendMessage(ChatColor.RED + "You do not have permission to use this command!");
+                return true;
+            }
             Time time = new Time();
             if (playersOnCooldown.containsKey(player)) {
                 Time timeLeft = new Time(playersOnCooldown.get(player).getMiliseconds() - time.getMiliseconds());

@@ -1,12 +1,12 @@
 name: Wild
-version: 1.0.15-DEVELOPMENT-SNAPSHOT
+version: 1.0.16-DEVELOPMENT-SNAPSHOT
 main: com.gmail.gogobebe2.wild.Wild
 description:
 author: William Bryant (gogobebe2)
 website: gogobebe2@gmail.com
 commands:
   wild:
-    permission: wild.use
+    description: Teleports to a random location that is safe.
 permissions:
   wild.*:
     default: op
@@ -14,6 +14,6 @@ permissions:
       wild.use: true
       wild.nocooldown: true
   wild.use:
-    default: op
+    default: true
   wild.nocooldown:
     default: op
