@@ -51,24 +51,24 @@ public class Wild extends JavaPlugin {
 
     private void teleRandomLocation(Player player, double min, double max) {
         Location location = player.getLocation();
-        boolean safeToTele = false;
+        Location destination;
         do {
-            location.setX(randDouble(min, max));
-            location.setZ(randDouble(min, max));
-            Location ground = getGround(location);
-            if (ground != null) {
-                location = ground;
-                safeToTele = true;
+            destination = location;
+            destination.setX(randDouble(min, max));
+            destination.setZ(randDouble(min, max));
+            destination = getGround(location);
+            if (destination != null) {
+                break;
             }
-        } while (!safeToTele);
-        player.teleport(location);
+        } while (true);
+        player.teleport(destination);
         player.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "After exploring the land, you've finally come across"
                 + "some land that looks like a good spot to build your faction home...");
         player.sendMessage(ChatColor.AQUA + "" + ChatColor.ITALIC + "Goodluck on your adventures and missions!!!");
     }
 
     private Location getGround(Location location) {
-        return getGround(location, 260D);
+        return getGround(location, 257D);
     }
 
     private Location getGround(Location location, double y) {
@@ -77,7 +77,8 @@ public class Wild extends JavaPlugin {
         if (y < 0) {
             return null;
         } else if (block.getType().equals(Material.AIR) || block.getType().equals(Material.LAVA) || block.getType().equals(Material.WATER)) {
-            location.setY(y - 1);
+            y--;
+            location.setY(y);
             return getGround(location, y);
         }
         return location;
