@@ -31,7 +31,7 @@ public class Wild extends JavaPlugin {
             Time time = new Time();
             if (playersOnCooldown.containsKey(player)) {
                 Time timeLeft = new Time(playersOnCooldown.get(player).getMiliseconds() - time.getMiliseconds());
-                if (timeLeft.getHours() > 24 && !player.hasPermission("wild.nocooldown")) {
+                if (timeLeft.getHours() < 24 && !player.hasPermission("wild.nocooldown")) {
                     player.sendMessage(ChatColor.RED + "Error! You can only use this command every 24 hours."
                             + " You currently have " + ChatColor.DARK_RED + timeLeft.getFormattedTime() + ChatColor.RED + " remaining.");
                     return true;
