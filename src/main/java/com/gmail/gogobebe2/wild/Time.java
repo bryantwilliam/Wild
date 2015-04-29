@@ -37,4 +37,7 @@ public class Time {
         return this.millis;
     }
 
+    public void setMiliseconds(long millis) {
+        this.millis = millis;
+    }
 }

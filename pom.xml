@@ -6,7 +6,7 @@
 
     <groupId>com.gmail.gogobebe2.wild</groupId>
     <artifactId>Wild</artifactId>
-    <version>1.0.17-DEVELOPMENT-SNAPSHOT</version>
+    <version>1.0.18-DEVELOPMENT-SNAPSHOT</version>
 
     <build>
         <pluginManagement>
