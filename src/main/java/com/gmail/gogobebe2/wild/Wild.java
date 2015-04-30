@@ -70,9 +70,9 @@ public class Wild extends JavaPlugin {
         } while (true);
         player.sendMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "Traveling into the wild where beasts roam the land and men fight to survive.");
         player.teleport(destination);
-        player.sendMessage(ChatColor.GREEN + "You have been teleported to X:" + ChatColor.GOLD + destination.getX()
-                + ChatColor.GREEN + ", Y:" + ChatColor.GOLD + destination.getY() + ChatColor.GREEN + ", Z:"
-                + ChatColor.GOLD + destination.getZ() + ChatColor.GREEN + ".");
+        player.sendMessage(ChatColor.GREEN + "You have been teleported to X:" + ChatColor.GOLD + Math.round(destination.getX() * 100.0) / 100.0
+                + ChatColor.GREEN + ", Y:" + ChatColor.GOLD + Math.round(destination.getY() * 100.0) / 100.0 + ChatColor.GREEN + ", Z:"
+                + ChatColor.GOLD + Math.round(destination.getZ() * 100.0) / 100.0  + ChatColor.GREEN + ".");
     }
 
     private Location getGround(Location location, double maxHeight) {
