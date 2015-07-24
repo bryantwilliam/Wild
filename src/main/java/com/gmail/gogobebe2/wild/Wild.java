@@ -11,14 +11,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class Wild extends JavaPlugin {
-    private Map<Player, Time> playersOnCooldown = new HashMap<>();
     private final Time cooldownTime = new Time(TimeUnit.HOURS.toMillis(24));
+
+    @Override
+    public void onEnable() {
+        saveDefaultConfig();
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -33,8 +36,9 @@ public class Wild extends JavaPlugin {
                 return true;
             }
             Time time = new Time();
-            if (playersOnCooldown.containsKey(player)) {
-                Time timeBeen = new Time(time.getMiliseconds() - playersOnCooldown.get(player).getMiliseconds());
+            Set<String> playersOnCooldown = getConfig().getConfigurationSection("players").getKeys(false);
+            if (playersOnCooldown.contains(player.getName())) {
+                Time timeBeen = new Time(time.getMiliseconds() - getConfig().getLong("players." + player.getName()));
                 if (timeBeen.getHours() < cooldownTime.getHours() && !player.hasPermission("wild.nocooldown")) {
                     Time timeRemaining = new Time(cooldownTime.getMiliseconds() - timeBeen.getMiliseconds());
                     player.sendMessage(ChatColor.RED + "Error! You can only use this command every 24 hours."
@@ -43,11 +47,11 @@ public class Wild extends JavaPlugin {
                 }
                 playersOnCooldown.remove(player);
             }
-            playersOnCooldown.put(player, time);
+            getConfig().set("players." + player.getName(), + time.getMiliseconds());
             if (args.length > 0) {
                 player.sendMessage(ChatColor.GREEN + "You entered some arguments to the command /wild. I will just ignore them :P");
             }
-            teleRandomLocation(player, -5000, 5000);
+            teleRandomLocation(player, getConfig().getDouble("min"), getConfig().getDouble("max"));
             return true;
         }
         return false;
