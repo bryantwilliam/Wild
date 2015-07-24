@@ -36,16 +36,18 @@ public class Wild extends JavaPlugin {
                 return true;
             }
             Time time = new Time();
-            Set<String> playersOnCooldown = getConfig().getConfigurationSection("players").getKeys(false);
-            if (playersOnCooldown.contains(player.getName())) {
-                Time timeBeen = new Time(time.getMiliseconds() - getConfig().getLong("players." + player.getName()));
-                if (timeBeen.getHours() < cooldownTime.getHours() && !player.hasPermission("wild.nocooldown")) {
-                    Time timeRemaining = new Time(cooldownTime.getMiliseconds() - timeBeen.getMiliseconds());
-                    player.sendMessage(ChatColor.RED + "Error! You can only use this command every 24 hours."
-                            + " You currently have " + ChatColor.DARK_RED + timeRemaining.getFormattedTime() + ChatColor.RED + " remaining.");
-                    return true;
+            if (getConfig().isSet("players")) {
+                Set<String> playersOnCooldown = getConfig().getConfigurationSection("players").getKeys(false);
+                if (playersOnCooldown.contains(player.getName())) {
+                    Time timeBeen = new Time(time.getMiliseconds() - getConfig().getLong("players." + player.getName()));
+                    if (timeBeen.getHours() < cooldownTime.getHours() && !player.hasPermission("wild.nocooldown")) {
+                        Time timeRemaining = new Time(cooldownTime.getMiliseconds() - timeBeen.getMiliseconds());
+                        player.sendMessage(ChatColor.RED + "Error! You can only use this command every 24 hours."
+                                + " You currently have " + ChatColor.DARK_RED + timeRemaining.getFormattedTime() + ChatColor.RED + " remaining.");
+                        return true;
+                    }
+                    playersOnCooldown.remove(player);
                 }
-                playersOnCooldown.remove(player);
             }
             getConfig().set("players." + player.getName(), + time.getMiliseconds());
             if (args.length > 0) {
