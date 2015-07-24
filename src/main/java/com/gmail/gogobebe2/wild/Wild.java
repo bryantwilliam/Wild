@@ -1,5 +1,7 @@
 package com.gmail.gogobebe2.wild;
 
+import com.massivecraft.factions.entity.BoardColl;
+import com.massivecraft.massivecore.ps.PS;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -72,7 +74,7 @@ public class Wild extends JavaPlugin {
         player.teleport(destination);
         player.sendMessage(ChatColor.GREEN + "You have been teleported to X:" + ChatColor.GOLD + Math.round(destination.getX() * 100.0) / 100.0
                 + ChatColor.GREEN + ", Y:" + ChatColor.GOLD + Math.round(destination.getY() * 100.0) / 100.0 + ChatColor.GREEN + ", Z:"
-                + ChatColor.GOLD + Math.round(destination.getZ() * 100.0) / 100.0  + ChatColor.GREEN + ".");
+                + ChatColor.GOLD + Math.round(destination.getZ() * 100.0) / 100.0 + ChatColor.GREEN + ".");
     }
 
     private Location getGround(Location location, double maxHeight) {
@@ -95,11 +97,12 @@ public class Wild extends JavaPlugin {
         Location underLoc = getLocationUnderneath(location);
         Block block = location.getBlock();
         Block underBlock = underLoc.getBlock();
-        return block.getType().equals(Material.AIR)
-                && !(underBlock.getType().equals(Material.AIR)
-                || (underBlock.getType().equals(Material.LAVA) || underBlock.getType().equals(Material.STATIONARY_LAVA))
-                || (underBlock.getType().equals(Material.WATER) || underBlock.getType().equals(Material.STATIONARY_WATER)));
-
+        return BoardColl.get().getFactionAt(PS.valueOf(location)) == null
+                && block.getType().equals(Material.AIR)
+                && !(underBlock.getType().equals(Material.AIR) || (underBlock.getType().equals(Material.LAVA)
+                        || underBlock.getType().equals(Material.STATIONARY_LAVA))
+                        || (underBlock.getType().equals(Material.WATER)
+                        || underBlock.getType().equals(Material.STATIONARY_WATER)));
     }
 
     private Location getLocationUnderneath(Location location) {
