@@ -50,6 +50,7 @@ public class Wild extends JavaPlugin {
                 }
             }
             getConfig().set("players." + player.getName(), + time.getMiliseconds());
+            saveConfig();
             if (args.length > 0) {
                 player.sendMessage(ChatColor.GREEN + "You entered some arguments to the command /wild. I will just ignore them :P");
             }
