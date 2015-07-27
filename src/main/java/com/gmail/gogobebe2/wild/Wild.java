@@ -104,7 +104,7 @@ public class Wild extends JavaPlugin {
         Location underLoc = getLocationUnderneath(location);
         Block block = location.getBlock();
         Block underBlock = underLoc.getBlock();
-        return BoardColl.get().getFactionAt(PS.valueOf(location)) == null
+        return BoardColl.get().getFactionAt(PS.valueOf(location)) != null
                 && block.getType().equals(Material.AIR)
                 && !(underBlock.getType().equals(Material.AIR) || (underBlock.getType().equals(Material.LAVA)
                         || underBlock.getType().equals(Material.STATIONARY_LAVA))
